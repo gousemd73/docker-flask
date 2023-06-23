@@ -1,0 +1,36 @@
+version : "3.7"
+
+services:
+  mongodb:
+    container_name: mongoDB
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:  
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    
+  
+  mongo-ui:
+    container_name: mongo_ui 
+    image: mongo-express
+    restart: always
+    ports:
+      - 8080:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_SERVER=mongoDB
+  
+  mlapp:
+    container_name: mlapp
+    image: sentimentapp
+    ports:
+      - 5000:5000
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+
+
+
